@@ -1,0 +1,11 @@
+  <!-- DOS Inbound -->
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"LOCAL DOS SYN packet flood inbound, Potential DOS"; metadata: tag=DoS; flow:to_server; flags:S; threshold: type both, track by_dst, count 5000, seconds 5; classtype:misc-activity; sid:100010; rev:1;)
+alert tcp $HOME_NET any -> $EXTERNAL_NET any (msg:"LOCAL DOS SYN packet flood outbound, Potential DOS"; metadata: tag=DoS;  flow:to_server; flags:S; threshold: type both, track by_dst, count 5000, seconds 5; classtype:misc-activity; sid:100011; rev:1;)
+
+  <!-- Payload Mutation -->
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"Potential Payload Mutation Attack"; metadata: tag=Payload Mutation; flow:to_server; content:"Evil!"; nocase; sid:100001; rev:1;)
+alert tcp $HOME_NET any -> $EXTERNAL_NET any (msg:"Potential Payload Mutation Attack"; metadata: tag=Payload Mutation; flow:to_server; content:"Evil!"; nocase; sid:100002; rev:1;)
+
+  <!-- Shellcode Mutation -->
+alert tcp $EXTERNAL_NET any -> $HOME_NET 4444 (msg:"Potential Shellcode Mutation (Metasploit reverse_tcp)"; metadata: tag=Shellcode Mutation; flow:to_server; flags:S; classtype:attempted-user; sid:100003; rev:1;) 
+alert tcp $HOME_NET any -> $EXTERNAL_NET any (msg:"Potential Shellcode Mutation (Metasploit reverse_tcp)"; metadata: tag=Shellcode Mutation; flow:to_server; flags:S; classtype:attempted-user; sid:100004; rev:1;)

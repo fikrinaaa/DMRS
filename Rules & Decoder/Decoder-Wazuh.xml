@@ -1,0 +1,31 @@
+<group name="local,suricata,attack">
+
+  <!-- DOS Inbound -->
+  <rule id="100010" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="alert.signature_id">100010</field>
+    <field name="alert.signature">LOCAL DOS SYN packet flood inbound, Potential DOS</field>
+    <description>SYN flood attack detected (inbound) - Potential Denial of Service</description>
+    <group>dos,network</group>
+  </rule>
+
+  <!-- Payload Mutation -->
+  <rule id="100001" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="alert.signature_id">100001</field>
+    <field name="alert.signature">Potential Payload Mutation Attack</field>
+    <description>Suspicious payload detected - potential mutation attack (inbound)</description>
+    <group>injection,suspicious</group>
+  </rule>
+
+  <!-- Shellcode Mutation -->
+  <rule id="100003" level="12">
+    <decoded_as>json</decoded_as>
+    <field name="alert.signature_id">100003</field>
+    <field name="alert.signature">Potential Shellcode Mutation (Metasploit reverse_tcp)</field>
+    <description>Reverse shell (reverse_tcp) payload detected in traffic (inbound)</description>
+    <group>trojan,reverse-shell,critical</group>
+  </rule>
+
+
+</group>
