@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
         - name: cortex
-          image: registry.digitalocean.com/dmrs/cortex-custom:latest
+          image: registry.digitalocean.com/dmrs-1/cortex-custom:latest
           ports:
             - containerPort: 9001
           command: ["/opt/cortex/bin/cortex"]
