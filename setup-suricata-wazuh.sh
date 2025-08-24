@@ -89,7 +89,7 @@ while true; do
     fi
 done
 
-sudo chmod 640 $SURICATA_RULE_DIR/*.rules
+sudo chmod 640 /etc/suricata/rules/*.rules
 
 SURICATA_YAML="/etc/suricata/suricata.yaml"
 EVE_JSON_PATH="/var/log/suricata/eve.json"
@@ -117,42 +117,25 @@ INTERFACE=${INTERFACE:-enp0s8}
 # --- 6. Edit suricata.yaml ---
 echo "[*] Mengedit konfigurasi suricata.yaml..."
 
-# Backup dulu!
 sudo cp $SURICATA_YAML ${SURICATA_YAML}.bak.$(date +%s)
-
-# Update HOME_NET & EXTERNAL_NET pada block address-groups:
 sudo sed -i "s|^\([[:space:]]*HOME_NET:\).*|\1 \"$HOME_NET\"|g" $SURICATA_YAML
 sudo sed -i "s|^\([[:space:]]*EXTERNAL_NET:\).*|\1 \"$EXTERNAL_NET\"|g" $SURICATA_YAML
-
-# Update default-rule-path:
 sudo sed -i "s|^\(default-rule-path:\).*|\1 $SURICATA_RULE_DIR|g" $SURICATA_YAML
-
-# Comment semua block rule-files: yang ada dulu (biar gak double & terdokumentasi)
 sudo sed -i '/^rule-files:/,/^[^ ][^:]*:/{
   /^#/! s/^/# /
 }' $SURICATA_YAML
-
-# Tambahkan 1 block rule-files setelah default-rule-path, jika belum ada rule-files aktif (tidak di-comment)
 if ! sudo grep -qE '^[[:space:]]*rule-files:[[:space:]]*$' "$SURICATA_YAML"; then
   sudo sed -i "/^default-rule-path:/a\\
 rule-files:\\n  - \"*.rules\"
 " $SURICATA_YAML
 fi
-
-# Enable statistik (aktifkan enabled: yes di bawah stats:)
 sudo sed -i "/^stats:/,/^[^ ]/ {s/enabled: .*/enabled: yes/}" $SURICATA_YAML
-
-# Konfigurasi af-packet (block ulang)
 sudo sed -i "/af-packet:/,/^[^ ]/c\\
 af-packet:\n  - interface: $INTERFACE
 " $SURICATA_YAML
-
-# Edit eve-log (replace block)
 sudo sed -i "/eve-log:/,/^[^ ]/c\\
 eve-log:\n  enabled: yes\n  filetype: regular\n  filename: eve.json\n  types:\n    - alert:\n        payload: yes\n        metadata: yes\n        http-body: yes\n        tagged-packets: yes\n    - dns\n    - http\n    - flow\n    - stats
 " $SURICATA_YAML
-
-
 
 # --- 7. Restart Suricata ---
 echo ""
@@ -169,10 +152,7 @@ echo ""
 echo ""
 echo "[*] Integrasi log Suricata ke Wazuh (ossec.conf)..."
 
-# Backup dulu!
 sudo cp $OSSEC_CONF ${OSSEC_CONF}.bak.$(date +%s)
-
-# Tambahkan localfile Suricata eve.json ke ossec.conf jika belum ada
 if ! sudo grep -q "$EVE_JSON_PATH" $OSSEC_CONF; then
   sudo sed -i "/<\/ossec_config>/i \  <localfile>\n    <log_format>json</log_format>\n    <location>$EVE_JSON_PATH</location>\n  </localfile>" $OSSEC_CONF
 fi
