@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wazuh-custom-rules
+  namespace: dmrs
+data:
+  custom_rules.xml: |-
+    <group name="local,suricata,attack,">
+
+      <!-- DOS Inbound -->
+        <rule id="100011" level="10" overwrite="yes">
+          <if_sid>86601</if_sid>
+          <match>LOCAL DOS SYN packet flood inbound, Potential DOS</match>
+          <description>SYN flood attack detected (inbound) - Potential Denial of Service</description>
+          <group>dos,network,custom</group>
+        </rule>
+
+        <!-- Payload Mutation -->
+        <rule id="100012" level="10" overwrite="yes">
+          <if_sid>86601</if_sid>
+          <decoded_as>json</decoded_as>
+          <match>Potential Payload Mutation Attack</match>
+          <description>Suspicious payload detected (inbound) - Potential payload mutation</description>
+          <group>injection,suspicious,custom</group>
+        </rule>
+        
+        <!-- Shellcode Mutation -->
+        <rule id="100013" level="12" overwrite="yes">
+          <if_sid>86601</if_sid>
+          <decoded_as>json</decoded_as>
+          <match>Potential Shellcode Mutation (Metasploit reverse_tcp)</match>
+          <description>Reverse shell payload detected (outbound) - Potential Metasploit reverse_tcp shellcode</description>
+          <group>trojan,reverse-shell,critical,custom</group>
+        </rule>
+    
+    </group>
