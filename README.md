@@ -169,7 +169,7 @@ Akses layanan utama setelah deployment:
 5. TheHive menampilkan hasil analisis → Wazuh bisa melakukan **Active Response**.
 
 ---
-## 📖 [SELURUH DETAIL DIBACA PADA DOKUMEN INI](docs/penjelasan.pdf)
+## 📖 [SELURUH DETAIL DAPAT DIBACA PADA DOKUMEN INI](docs/penjelasan.pdf)
 ---
 
 <p align="center">
