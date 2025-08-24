@@ -1,0 +1,1 @@
+wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.12.0-1_amd64.deb && sudo sudo WAZUH_MANAGER='IP WORKER' WAZUH_REGISTRATION_SERVER='IP WAZUH' WAZUH_REGISTRATION_PASSWORD=$'password' WAZUH_AGENT_NAME='Target' dpkg -i ./wazuh-agent_4.12.0-1_amd64.deb
