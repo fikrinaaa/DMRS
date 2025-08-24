@@ -54,10 +54,11 @@ git clone https://github.com/Shuffle/Shuffle.git
 ```
 
 ### 3) Build & Push Image **Cortex** (sebelum `pulumi up`)
+```bash
 docker login registry.digitalocean.com
 docker build -t registry.digitalocean.com/dmrs/cortex-custom:latest .
 docker push registry.digitalocean.com/dmrs/cortex-custom:latest
-
+```
 
 ### 4) Konfigurasi Pulumi Secrets
 
