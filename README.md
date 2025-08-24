@@ -1,5 +1,4 @@
-# 🚨 Sistem Monitoring, Deteksi, dan Respons Insiden  
-_Berbasis Pulumi IaC di DigitalOcean Kubernetes_
+# 🚨 Sistem Monitoring, Deteksi, dan Respons Insiden  Berbasis Pulumi IaC di DigitalOcean Kubernetes
 
 ## 📌 Deskripsi
 Proyek ini membangun infrastruktur **Security Operations Center (SOC)** otomatis menggunakan pendekatan **Infrastructure as Code (IaC)** dengan **Pulumi**. Sistem dijalankan di atas **DigitalOcean Kubernetes** dan mengintegrasikan beberapa komponen utama untuk monitoring, deteksi, dan respons insiden keamanan siber.
@@ -72,14 +71,14 @@ pulumi config set digitalocean:token <API_TOKEN> --secret
 pulumi up
 ```
 
-### 6) Konfigurasi Router
+### 6) Konfigurasi Suricata + Wazuh Agent di Router
 
 ```bash
 chmod +x setup_router.sh
 ./setup_router.sh
 ```
 
-### 7) Konfigurasi Agent
+### 7) Konfigurasi Wazuh Agent di Target
 
 ```bash
 chmod +x setup_agent.sh
