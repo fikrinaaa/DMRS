@@ -16,7 +16,7 @@ Proyek ini membangun infrastruktur **Security Operations Center (SOC)** otomatis
 ## 🏗️ Arsitektur Sistem
 Arsitektur deployment Kubernetes di DigitalOcean:
 
-![Arsitektur Sistem](/gambar/topologi.png)
+![Arsitektur Sistem](/gambar/arsitektur.png)
 
 ---
 
