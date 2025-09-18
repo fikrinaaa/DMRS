@@ -7,8 +7,8 @@ from pulumi import ResourceOptions, Output, Config
 
 
 registry_name  = "dmrs-1"
-registry_user  = "kamiatunsp@gmail.com"
-registry_token = "dop_v1_f0fc48e3ac4885947f240d8eb19648230dfd46b8901487957598fdac5eb5d04b"
+registry_user  = "EMAIL"
+registry_token = "DOKS API"
 
 auth_b64 = Output.secret(f"{registry_user}:{registry_token}").apply(
     lambda s: base64.b64encode(s.encode()).decode()
@@ -131,6 +131,7 @@ pulumi.export("wazuh_resource_count", wazuh.resources.apply(lambda r: len(r)))
 pulumi.export("thehive_status", thehive.urn)
 pulumi.export("cortex_status", cortex.urn)
 pulumi.export("shuffle_status", shuffle.urn)
+
 
 
 
